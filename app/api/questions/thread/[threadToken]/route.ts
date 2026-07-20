@@ -4,9 +4,14 @@ import { z } from "zod";
 import { db } from "@/db";
 import { questions, replies } from "@/db/schema";
 
-const revealContactSchema = z.object({
-  contact: z.string().trim().min(1).max(200),
-});
+const updateThreadSchema = z
+  .object({
+    contact: z.string().trim().min(1).max(200).optional(),
+    notifyEmail: z.string().trim().email().optional(),
+  })
+  .refine((data) => data.contact || data.notifyEmail, {
+    message: "Nothing to update",
+  });
 
 export async function GET(
   _request: Request,
@@ -41,7 +46,7 @@ export async function PATCH(
   const { threadToken } = await params;
 
   const body = await request.json().catch(() => null);
-  const parsed = revealContactSchema.safeParse(body);
+  const parsed = updateThreadSchema.safeParse(body);
   if (!parsed.success) {
     return NextResponse.json(
       { error: parsed.error.issues[0].message },
@@ -62,7 +67,10 @@ export async function PATCH(
 
   await db
     .update(questions)
-    .set({ optionalContact: parsed.data.contact })
+    .set({
+      ...(parsed.data.contact && { optionalContact: parsed.data.contact }),
+      ...(parsed.data.notifyEmail && { notifyEmail: parsed.data.notifyEmail }),
+    })
     .where(eq(questions.id, question.id));
 
   return NextResponse.json({ success: true });

@@ -10,6 +10,7 @@ import {
   CardTitle,
 } from "@/components/ui/card";
 import { RevealContactForm } from "./RevealContactForm";
+import { NotifyEmailForm } from "./NotifyEmailForm";
 
 export default async function ThreadPage({
   params,
@@ -58,6 +59,15 @@ export default async function ThreadPage({
           <p className="whitespace-pre-wrap">{question.questionText}</p>
         </CardContent>
       </Card>
+
+      {question.status === "pending" && !question.notifyEmail && (
+        <NotifyEmailForm threadToken={threadToken} />
+      )}
+      {question.status === "pending" && question.notifyEmail && (
+        <p className="mb-6 text-sm text-muted-foreground">
+          We&apos;ll email {question.notifyEmail} when there&apos;s a reply.
+        </p>
+      )}
 
       {question.flaggedSensitive && !question.optionalContact && (
         <RevealContactForm threadToken={threadToken} />

@@ -5,6 +5,7 @@ import { auth } from "@/auth";
 import { db } from "@/db";
 import { questions, replies } from "@/db/schema";
 import { getBoardAdmin } from "@/lib/board-admin";
+import { sendReplyNotification } from "@/lib/email";
 
 const replySchema = z.object({
   replyText: z.string().trim().min(1, "Reply is required").max(4000),
@@ -62,6 +63,16 @@ export async function POST(
       isPublic: visibility === "public" ? true : question.isPublic,
     })
     .where(eq(questions.id, question.id));
+
+  if (question.notifyEmail) {
+    const threadUrl = new URL(
+      `/thread/${question.threadToken}`,
+      request.url,
+    ).toString();
+    sendReplyNotification({ to: question.notifyEmail, threadUrl }).catch(
+      (error) => console.error("Failed to send reply notification", error),
+    );
+  }
 
   return NextResponse.json({ reply }, { status: 201 });
 }

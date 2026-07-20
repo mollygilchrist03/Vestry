@@ -12,7 +12,7 @@ const fraunces = Fraunces({
 });
 
 export const metadata: Metadata = {
-  title: "Vestry — Faithful conversations. Stronger together.",
+  title: "Vestry",
 };
 
 export default function Home() {
