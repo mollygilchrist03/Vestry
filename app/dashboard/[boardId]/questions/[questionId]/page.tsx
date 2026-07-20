@@ -8,12 +8,15 @@ import { getBoardAdmin } from "@/lib/board-admin";
 import { Badge } from "@/components/ui/badge";
 import {
   Card,
+  CardAction,
   CardContent,
   CardDescription,
   CardHeader,
   CardTitle,
 } from "@/components/ui/card";
+import { STATUS_BADGE_VARIANT } from "@/lib/question-status-badge";
 import { ReplyForm } from "./ReplyForm";
+import { ModerationControls } from "./ModerationControls";
 
 export default async function QuestionDetailPage({
   params,
@@ -59,10 +62,16 @@ export default async function QuestionDetailPage({
         <CardHeader>
           <CardTitle>{question.displayName?.trim() || "Anonymous"}</CardTitle>
           <CardDescription>
-            <Badge variant={question.status === "pending" ? "default" : "secondary"}>
+            <Badge variant={STATUS_BADGE_VARIANT[question.status]}>
               {question.status}
             </Badge>
           </CardDescription>
+          <CardAction>
+            <ModerationControls
+              questionId={question.id}
+              status={question.status}
+            />
+          </CardAction>
         </CardHeader>
         <CardContent>
           <p className="whitespace-pre-wrap">{question.questionText}</p>

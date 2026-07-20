@@ -5,6 +5,7 @@ import { auth } from "@/auth";
 import { db } from "@/db";
 import { churches, questions, type questionStatusEnum } from "@/db/schema";
 import { getBoardAdmin } from "@/lib/board-admin";
+import { STATUS_BADGE_VARIANT } from "@/lib/question-status-badge";
 import { Badge } from "@/components/ui/badge";
 import { buttonVariants } from "@/components/ui/button";
 import { cn } from "@/lib/utils";
@@ -16,6 +17,7 @@ const FILTERS: { label: string; value: StatusFilter }[] = [
   { label: "Pending", value: "pending" },
   { label: "Answered", value: "answered" },
   { label: "Hidden", value: "hidden" },
+  { label: "Deleted", value: "deleted" },
 ];
 
 export default async function BoardQuestionsPage({
@@ -107,7 +109,7 @@ export default async function BoardQuestionsPage({
                 <span className="text-sm font-medium">
                   {q.displayName?.trim() || "Anonymous"}
                 </span>
-                <Badge variant={q.status === "pending" ? "default" : "secondary"}>
+                <Badge variant={STATUS_BADGE_VARIANT[q.status]}>
                   {q.status}
                 </Badge>
               </div>
