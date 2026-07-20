@@ -5,6 +5,10 @@ import { signIn } from "@/auth";
 
 export type LoginState = { error: string } | null;
 
+export async function loginWithGoogle() {
+  await signIn("google", { redirectTo: "/dashboard" });
+}
+
 export async function login(
   _prevState: LoginState,
   formData: FormData,

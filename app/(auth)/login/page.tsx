@@ -12,7 +12,7 @@ import {
   CardHeader,
   CardTitle,
 } from "@/components/ui/card";
-import { login } from "./actions";
+import { login, loginWithGoogle } from "./actions";
 
 export default function LoginPage() {
   const [state, formAction, pending] = useActionState(login, null);
@@ -27,6 +27,18 @@ export default function LoginPage() {
           </CardDescription>
         </CardHeader>
         <CardContent>
+          <form action={loginWithGoogle}>
+            <Button type="submit" variant="outline" className="w-full">
+              Continue with Google
+            </Button>
+          </form>
+
+          <div className="my-4 flex items-center gap-3">
+            <div className="h-px flex-1 bg-border" />
+            <span className="text-xs text-muted-foreground">or</span>
+            <div className="h-px flex-1 bg-border" />
+          </div>
+
           <form action={formAction} className="space-y-4">
             <div className="space-y-2">
               <Label htmlFor="email">Email</Label>
