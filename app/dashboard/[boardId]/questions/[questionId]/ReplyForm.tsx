@@ -19,7 +19,8 @@ export function ReplyForm({ questionId }: { questionId: string }) {
     setError(null);
     setPending(true);
 
-    const formData = new FormData(e.currentTarget);
+    const form = e.currentTarget;
+    const formData = new FormData(form);
     const res = await fetch(`/api/questions/${questionId}/reply`, {
       method: "POST",
       headers: { "Content-Type": "application/json" },
@@ -37,7 +38,7 @@ export function ReplyForm({ questionId }: { questionId: string }) {
     }
 
     router.refresh();
-    e.currentTarget.reset();
+    form.reset();
   }
 
   return (
