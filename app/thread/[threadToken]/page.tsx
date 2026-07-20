@@ -9,6 +9,7 @@ import {
   CardHeader,
   CardTitle,
 } from "@/components/ui/card";
+import { RevealContactForm } from "./RevealContactForm";
 
 export default async function ThreadPage({
   params,
@@ -57,6 +58,16 @@ export default async function ThreadPage({
           <p className="whitespace-pre-wrap">{question.questionText}</p>
         </CardContent>
       </Card>
+
+      {question.flaggedSensitive && !question.optionalContact && (
+        <RevealContactForm threadToken={threadToken} />
+      )}
+      {question.flaggedSensitive && question.optionalContact && (
+        <p className="mb-6 rounded-md bg-muted px-4 py-3 text-sm text-muted-foreground">
+          Thanks for sharing your contact info — your pastor will be in
+          touch.
+        </p>
+      )}
 
       {threadReplies.length === 0 ? (
         <p className="text-center text-sm text-muted-foreground">

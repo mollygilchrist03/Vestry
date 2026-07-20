@@ -17,6 +17,7 @@ import {
 import { STATUS_BADGE_VARIANT } from "@/lib/question-status-badge";
 import { ReplyForm } from "./ReplyForm";
 import { ModerationControls } from "./ModerationControls";
+import { FlagSensitiveButton } from "./FlagSensitiveButton";
 
 export default async function QuestionDetailPage({
   params,
@@ -61,12 +62,19 @@ export default async function QuestionDetailPage({
       <Card className="my-6">
         <CardHeader>
           <CardTitle>{question.displayName?.trim() || "Anonymous"}</CardTitle>
-          <CardDescription>
+          <CardDescription className="flex items-center gap-2">
             <Badge variant={STATUS_BADGE_VARIANT[question.status]}>
               {question.status}
             </Badge>
+            {question.flaggedSensitive && (
+              <Badge variant="destructive">sensitive</Badge>
+            )}
           </CardDescription>
-          <CardAction>
+          <CardAction className="flex gap-2">
+            <FlagSensitiveButton
+              questionId={question.id}
+              flagged={question.flaggedSensitive}
+            />
             <ModerationControls
               questionId={question.id}
               status={question.status}
@@ -75,6 +83,12 @@ export default async function QuestionDetailPage({
         </CardHeader>
         <CardContent>
           <p className="whitespace-pre-wrap">{question.questionText}</p>
+          {question.optionalContact && (
+            <p className="mt-4 rounded-md bg-muted p-3 text-sm">
+              <span className="font-medium">Contact shared:</span>{" "}
+              {question.optionalContact}
+            </p>
+          )}
         </CardContent>
       </Card>
 
