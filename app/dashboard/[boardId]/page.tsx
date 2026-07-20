@@ -64,14 +64,22 @@ export default async function BoardQuestionsPage({
 
   return (
     <div className="mx-auto w-full max-w-3xl px-4 py-10">
-      <div className="mb-6">
+      <div className="mb-6 flex items-start justify-between gap-3">
+        <div>
+          <Link
+            href="/dashboard"
+            className="text-sm text-muted-foreground underline underline-offset-4"
+          >
+            ← All boards
+          </Link>
+          <h1 className="mt-2 text-2xl font-semibold">{board.name}</h1>
+        </div>
         <Link
-          href="/dashboard"
+          href={`/dashboard/${boardId}/staff`}
           className="text-sm text-muted-foreground underline underline-offset-4"
         >
-          ← All boards
+          Staff
         </Link>
-        <h1 className="mt-2 text-2xl font-semibold">{board.name}</h1>
       </div>
 
       <div className="mb-6 flex gap-2 overflow-x-auto pb-1">
