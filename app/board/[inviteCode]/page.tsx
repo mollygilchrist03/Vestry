@@ -3,6 +3,7 @@ import { eq } from "drizzle-orm";
 import { db } from "@/db";
 import { churches } from "@/db/schema";
 import { getPublicQuestions } from "@/lib/public-questions";
+import { buttonVariants } from "@/components/ui/button";
 import {
   Card,
   CardContent,
@@ -39,7 +40,7 @@ export default async function BoardPage({
     : [];
 
   return (
-    <div className="mx-auto max-w-xl px-4 py-10">
+    <div className="mx-auto max-w-xl px-4 py-10 pb-24 md:pb-10">
       <div className="mb-8 text-center">
         <h1 className="text-2xl font-semibold">{board.name}</h1>
         {board.description && (
@@ -49,7 +50,7 @@ export default async function BoardPage({
         )}
       </div>
 
-      <Card>
+      <Card id="ask-a-question">
         <CardHeader>
           <CardTitle>Ask a question</CardTitle>
           <CardDescription>
@@ -94,6 +95,15 @@ export default async function BoardPage({
           )}
         </div>
       )}
+
+      <div className="fixed inset-x-0 bottom-0 z-40 border-t border-border bg-background p-4 md:hidden">
+        <a
+          href="#ask-a-question"
+          className={buttonVariants({ className: "w-full" })}
+        >
+          Ask a question
+        </a>
+      </div>
     </div>
   );
 }

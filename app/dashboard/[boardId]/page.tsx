@@ -63,7 +63,7 @@ export default async function BoardQuestionsPage({
     .orderBy(desc(questions.createdAt));
 
   return (
-    <div className="mx-auto max-w-3xl px-4 py-10">
+    <div className="mx-auto w-full max-w-3xl px-4 py-10">
       <div className="mb-6">
         <Link
           href="/dashboard"
@@ -74,7 +74,7 @@ export default async function BoardQuestionsPage({
         <h1 className="mt-2 text-2xl font-semibold">{board.name}</h1>
       </div>
 
-      <div className="mb-6 flex gap-2">
+      <div className="mb-6 flex gap-2 overflow-x-auto pb-1">
         {FILTERS.map((f) => (
           <Link
             key={f.value}
@@ -88,6 +88,7 @@ export default async function BoardQuestionsPage({
                 variant: status === f.value ? "default" : "outline",
                 size: "sm",
               }),
+              "shrink-0",
             )}
           >
             {f.label}
