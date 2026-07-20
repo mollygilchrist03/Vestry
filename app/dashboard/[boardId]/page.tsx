@@ -74,12 +74,20 @@ export default async function BoardQuestionsPage({
           </Link>
           <h1 className="mt-2 text-2xl font-semibold">{board.name}</h1>
         </div>
-        <Link
-          href={`/dashboard/${boardId}/staff`}
-          className="text-sm text-muted-foreground underline underline-offset-4"
-        >
-          Staff
-        </Link>
+        <div className="flex gap-4">
+          <Link
+            href={`/dashboard/${boardId}/staff`}
+            className="text-sm text-muted-foreground underline underline-offset-4"
+          >
+            Staff
+          </Link>
+          <Link
+            href={`/dashboard/${boardId}/settings`}
+            className="text-sm text-muted-foreground underline underline-offset-4"
+          >
+            Settings
+          </Link>
+        </div>
       </div>
 
       <div className="mb-6 flex gap-2 overflow-x-auto pb-1">
