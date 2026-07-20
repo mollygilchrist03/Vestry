@@ -66,7 +66,14 @@ export default async function DashboardPage() {
           {boards.map((board) => (
             <Card key={board.id}>
               <CardHeader>
-                <CardTitle>{board.name}</CardTitle>
+                <CardTitle>
+                  <Link
+                    href={`/dashboard/${board.id}`}
+                    className="underline-offset-4 hover:underline"
+                  >
+                    {board.name}
+                  </Link>
+                </CardTitle>
                 {board.description && (
                   <CardDescription>{board.description}</CardDescription>
                 )}
