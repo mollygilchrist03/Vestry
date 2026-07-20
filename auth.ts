@@ -1,5 +1,6 @@
 import NextAuth from "next-auth";
 import Credentials from "next-auth/providers/credentials";
+import Google from "next-auth/providers/google";
 import bcrypt from "bcryptjs";
 import { z } from "zod";
 import { eq } from "drizzle-orm";
@@ -15,6 +16,7 @@ export const { handlers, auth, signIn, signOut } = NextAuth({
   session: { strategy: "jwt" },
   pages: { signIn: "/login" },
   providers: [
+    Google,
     Credentials({
       credentials: {
         email: { label: "Email", type: "email" },
@@ -30,7 +32,7 @@ export const { handlers, auth, signIn, signOut } = NextAuth({
           .from(users)
           .where(eq(users.email, email))
           .limit(1);
-        if (!user) return null;
+        if (!user || !user.passwordHash) return null;
 
         const valid = await bcrypt.compare(password, user.passwordHash);
         if (!valid) return null;
@@ -40,8 +42,26 @@ export const { handlers, auth, signIn, signOut } = NextAuth({
     }),
   ],
   callbacks: {
-    jwt({ token, user }) {
-      if (user) token.id = user.id;
+    async signIn({ user, account }) {
+      if (account?.provider === "google" && user.email) {
+        await db
+          .insert(users)
+          .values({ email: user.email, name: user.name ?? null })
+          .onConflictDoNothing({ target: users.email });
+      }
+      return true;
+    },
+    async jwt({ token, user, account }) {
+      if (account?.provider === "google" && token.email) {
+        const [dbUser] = await db
+          .select({ id: users.id })
+          .from(users)
+          .where(eq(users.email, token.email))
+          .limit(1);
+        if (dbUser) token.id = dbUser.id;
+      } else if (user) {
+        token.id = user.id;
+      }
       return token;
     },
     session({ session, token }) {
