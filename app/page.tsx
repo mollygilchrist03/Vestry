@@ -15,46 +15,14 @@ export const metadata: Metadata = {
   title: "Vestry — Faithful conversations. Stronger together.",
 };
 
-function VestryMark() {
-  return (
-    <svg viewBox="0 0 40 40" fill="none" aria-hidden="true">
-      <path
-        d="M6 34 L6 15 Q20 2 34 15 L34 34"
-        stroke="#35482A"
-        strokeWidth="2.4"
-        strokeLinecap="round"
-        fill="none"
-      />
-      <line
-        x1="20"
-        y1="12"
-        x2="20"
-        y2="24"
-        stroke="#C09D5F"
-        strokeWidth="2.2"
-        strokeLinecap="round"
-      />
-      <line
-        x1="15"
-        y1="17"
-        x2="25"
-        y2="17"
-        stroke="#C09D5F"
-        strokeWidth="2.2"
-        strokeLinecap="round"
-      />
-      <ellipse cx="20" cy="30" rx="9" ry="3.4" fill="#35482A" />
-    </svg>
-  );
-}
-
 export default function Home() {
   return (
     <div className={`${styles.page} ${fraunces.variable}`}>
       <nav className={styles.nav}>
         <div className={`${styles.wrap} ${styles.navInner}`}>
           <Link href="/" className={styles.navBrand}>
-            <VestryMark />
+            {/* eslint-disable-next-line @next/next/no-img-element */}
+            <img src="/Vestry.svg" alt="" className={styles.navMark} />
             Vestry
           </Link>
           <div className={styles.navLinks}>

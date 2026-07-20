@@ -15,6 +15,10 @@ const geistMono = Geist_Mono({
 export const metadata: Metadata = {
   title: "Vestry",
   description: "Faithful conversations. Stronger together.",
+  icons: {
+    icon: "/Vestry.svg",
+    apple: "/Vestry.png",
+  },
 };
 
 export default function RootLayout({
