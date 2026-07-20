@@ -67,6 +67,7 @@ export const questions = pgTable("questions", {
   status: questionStatusEnum("status").notNull().default("pending"),
   flaggedSensitive: boolean("flagged_sensitive").notNull().default(false),
   optionalContact: text("optional_contact"),
+  notifyEmail: text("notify_email"),
   createdAt: timestamp("created_at", { withTimezone: true })
     .notNull()
     .defaultNow(),
