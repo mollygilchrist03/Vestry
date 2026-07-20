@@ -15,6 +15,13 @@
       "when": 1784578307544,
       "tag": "0001_equal_golden_guardian",
       "breakpoints": true
+    },
+    {
+      "idx": 2,
+      "version": "7",
+      "when": 1784580252195,
+      "tag": "0002_serious_shape",
+      "breakpoints": true
     }
   ]
 }
