@@ -23,7 +23,13 @@ export function FeedPost({
   const name = displayName?.trim() || "Anonymous";
 
   return (
-    <article className="rounded-2xl border border-border bg-card p-4 shadow-sm">
+    <article className="relative overflow-hidden rounded-3xl border border-border bg-card p-5 pt-6 shadow-sm">
+      <div
+        className={
+          "absolute inset-x-0 top-0 h-1 " +
+          (replies.length > 0 ? "bg-accent" : "bg-border")
+        }
+      />
       <div className="flex gap-3">
         <Avatar name={displayName} />
         <div className="min-w-0 flex-1">

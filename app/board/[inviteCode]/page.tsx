@@ -1,4 +1,5 @@
 import { notFound } from "next/navigation";
+import { Fraunces } from "next/font/google";
 import { eq } from "drizzle-orm";
 import { db } from "@/db";
 import { churches } from "@/db/schema";
@@ -13,6 +14,12 @@ import {
 } from "@/components/ui/card";
 import { FeedPost } from "@/components/FeedPost";
 import { AskQuestionForm } from "./AskQuestionForm";
+
+const fraunces = Fraunces({
+  variable: "--font-fraunces-board",
+  subsets: ["latin"],
+  weight: ["500", "600"],
+});
 
 export default async function BoardPage({
   params,
@@ -41,17 +48,24 @@ export default async function BoardPage({
     : [];
 
   return (
-    <div className="mx-auto max-w-xl px-4 py-10 pb-24 md:pb-10">
+    <div className={`${fraunces.variable} mx-auto max-w-xl px-4 py-10 pb-24 md:pb-10`}>
       <div className="mb-8 text-center">
-        <h1 className="text-2xl font-semibold">{board.name}</h1>
+        <h1 className="font-[family-name:var(--font-fraunces-board)] text-3xl font-semibold text-foreground">
+          {board.name}
+        </h1>
+        <div className="mx-auto mt-3 flex items-center justify-center gap-2">
+          <span className="h-px w-8 bg-accent" />
+          <span className="h-1.5 w-1.5 rounded-full bg-accent" />
+          <span className="h-px w-8 bg-accent" />
+        </div>
         {board.description && (
-          <p className="mt-2 text-sm text-muted-foreground">
+          <p className="mt-3 text-sm text-muted-foreground">
             {board.description}
           </p>
         )}
       </div>
 
-      <Card id="ask-a-question" className="rounded-2xl">
+      <Card id="ask-a-question" className="rounded-3xl shadow-sm">
         <CardHeader>
           <CardTitle>Ask a question</CardTitle>
           <CardDescription>
@@ -66,7 +80,9 @@ export default async function BoardPage({
 
       {board.publicBoardEnabled && (
         <div className="mt-10">
-          <h2 className="mb-4 text-lg font-semibold">Public Q&amp;A</h2>
+          <h2 className="mb-4 font-[family-name:var(--font-fraunces-board)] text-lg font-semibold text-foreground">
+            Public Q&amp;A
+          </h2>
           {publicQuestions.length === 0 ? (
             <p className="text-sm text-muted-foreground">
               No public questions yet.
