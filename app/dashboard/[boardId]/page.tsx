@@ -63,32 +63,8 @@ export default async function BoardQuestionsPage({
     .orderBy(desc(questions.createdAt));
 
   return (
-    <div className="mx-auto w-full max-w-3xl px-4 py-10">
-      <div className="mb-6 flex items-start justify-between gap-3">
-        <div>
-          <Link
-            href="/dashboard"
-            className="text-sm text-muted-foreground underline underline-offset-4"
-          >
-            ← All boards
-          </Link>
-          <h1 className="mt-2 text-2xl font-semibold">{board.name}</h1>
-        </div>
-        <div className="flex gap-4">
-          <Link
-            href={`/dashboard/${boardId}/staff`}
-            className="text-sm text-muted-foreground underline underline-offset-4"
-          >
-            Staff
-          </Link>
-          <Link
-            href={`/dashboard/${boardId}/settings`}
-            className="text-sm text-muted-foreground underline underline-offset-4"
-          >
-            Settings
-          </Link>
-        </div>
-      </div>
+    <div className="mx-auto w-full max-w-3xl px-4 py-10 md:px-8">
+      <h1 className="mb-6 text-2xl font-semibold">{board.name}</h1>
 
       <div className="mb-6 flex gap-2 overflow-x-auto pb-1">
         {FILTERS.map((f) => (

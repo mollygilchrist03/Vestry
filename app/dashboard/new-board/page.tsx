@@ -41,7 +41,6 @@ export default function NewBoardPage() {
     }
 
     router.push("/dashboard");
-    router.refresh();
   }
 
   return (

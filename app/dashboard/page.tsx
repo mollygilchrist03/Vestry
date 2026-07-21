@@ -4,7 +4,7 @@ import { eq } from "drizzle-orm";
 import { auth } from "@/auth";
 import { db } from "@/db";
 import { boardAdmins, churches } from "@/db/schema";
-import { Button, buttonVariants } from "@/components/ui/button";
+import { buttonVariants } from "@/components/ui/button";
 import {
   Card,
   CardContent,
@@ -12,7 +12,6 @@ import {
   CardHeader,
   CardTitle,
 } from "@/components/ui/card";
-import { logout } from "./actions";
 
 export default async function DashboardPage() {
   const session = await auth();
@@ -32,19 +31,12 @@ export default async function DashboardPage() {
     .where(eq(boardAdmins.userId, session.user.id));
 
   return (
-    <div className="mx-auto max-w-3xl px-4 py-10">
+    <div className="mx-auto max-w-5xl px-4 py-10 md:px-8">
       <div className="mb-8 flex items-center justify-between">
-        <div>
-          <h1 className="text-2xl font-semibold">Your boards</h1>
-          <p className="text-sm text-muted-foreground">
-            Signed in as {session.user.email}
-          </p>
-        </div>
-        <form action={logout}>
-          <Button type="submit" variant="outline">
-            Log out
-          </Button>
-        </form>
+        <h1 className="text-2xl font-semibold">Boards</h1>
+        <Link href="/dashboard/new-board" className={buttonVariants()}>
+          + New board
+        </Link>
       </div>
 
       {boards.length === 0 ? (
@@ -62,38 +54,27 @@ export default async function DashboardPage() {
           </CardContent>
         </Card>
       ) : (
-        <div className="space-y-4">
+        <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
           {boards.map((board) => (
-            <Card key={board.id}>
-              <CardHeader>
-                <CardTitle>
-                  <Link
-                    href={`/dashboard/${board.id}`}
-                    className="underline-offset-4 hover:underline"
-                  >
-                    {board.name}
-                  </Link>
-                </CardTitle>
-                {board.description && (
-                  <CardDescription>{board.description}</CardDescription>
-                )}
-              </CardHeader>
-              <CardContent>
-                <p className="text-sm text-muted-foreground">
-                  Invite code:{" "}
-                  <span className="font-mono font-medium text-foreground">
-                    {board.inviteCode}
-                  </span>
-                </p>
-              </CardContent>
-            </Card>
+            <Link key={board.id} href={`/dashboard/${board.id}`}>
+              <Card className="h-full transition-colors hover:bg-muted/50">
+                <CardHeader>
+                  <CardTitle>{board.name}</CardTitle>
+                  {board.description && (
+                    <CardDescription>{board.description}</CardDescription>
+                  )}
+                </CardHeader>
+                <CardContent>
+                  <p className="text-sm text-muted-foreground">
+                    Invite code:{" "}
+                    <span className="font-mono font-medium text-foreground">
+                      {board.inviteCode}
+                    </span>
+                  </p>
+                </CardContent>
+              </Card>
+            </Link>
           ))}
-          <Link
-            href="/dashboard/new-board"
-            className={buttonVariants({ variant: "outline" })}
-          >
-            Create another board
-          </Link>
         </div>
       )}
     </div>
