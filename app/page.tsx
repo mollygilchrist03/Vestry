@@ -44,16 +44,16 @@ export default function Home() {
             <p className={styles.heroNote}>
               Free to start · No credit card · Set up in under five minutes
             </p>
-          </div>
-        </section>
 
-        <section className={`${styles.inviteBar} ${styles.wrap}`}>
-          <Reveal className={styles.inviteBarCard}>
-            <span className={styles.inviteBarLabel}>
-              Already have an invite code?
-            </span>
-            <InviteCodeForm variant="light" />
-          </Reveal>
+            <div className={styles.archPanelDivider} />
+
+            <Reveal className={styles.inviteInline}>
+              <span className={styles.inviteBarLabel}>
+                Already have an invite code?
+              </span>
+              <InviteCodeForm variant="light" />
+            </Reveal>
+          </div>
         </section>
 
         <section className={styles.story}>

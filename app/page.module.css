@@ -156,9 +156,25 @@
   border-bottom: none;
   border-radius: 200px 200px 0 0;
   background: var(--page-white);
-  padding: 88px 56px 72px;
+  padding: 88px 56px 0;
   text-align: center;
   overflow: hidden;
+}
+
+.archPanelDivider {
+  margin: 56px auto 0;
+  max-width: 420px;
+  height: 1px;
+  background: var(--page-border);
+}
+
+.inviteInline {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 16px;
+  flex-wrap: wrap;
+  padding: 32px 0 40px;
 }
 
 .archPanel::before {
@@ -259,7 +275,6 @@
 .story {
   background: var(--page-green-700);
   padding: 96px 0;
-  margin-top: 64px;
 }
 
 .storyInner {
@@ -606,25 +621,7 @@
   min-height: 18px;
 }
 
-/* ---------- Invite bar (light variant, near top of page) ---------- */
-
-.inviteBar {
-  padding: 8px 0 48px;
-}
-
-.inviteBarCard {
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  gap: 16px;
-  flex-wrap: wrap;
-  max-width: 640px;
-  margin: 0 auto;
-  padding: 18px 28px;
-  background: var(--page-white);
-  border: 1px solid var(--page-border);
-  border-radius: 100px;
-}
+/* ---------- Invite bar (light variant, inside the arch panel) ---------- */
 
 .inviteBarLabel {
   font-size: 14px;
@@ -733,8 +730,11 @@
     font-size: 16.5px;
   }
   .archPanel {
-    padding: 64px 24px 48px;
+    padding: 64px 24px 0;
     border-radius: 90px 90px 0 0;
+  }
+  .inviteInline {
+    padding: 24px 0 32px;
   }
   .steps {
     grid-template-columns: 1fr 1fr;
