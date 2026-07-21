@@ -180,14 +180,14 @@
 .archPanel::before {
   content: "";
   position: absolute;
-  top: 26px;
+  top: 36px;
   left: 50%;
   transform: translateX(-50%);
-  width: 46px;
-  height: 62px;
+  width: 34px;
+  height: 44px;
   background:
     linear-gradient(var(--page-gold), var(--page-gold)) center / 3px 100% no-repeat,
-    linear-gradient(var(--page-gold), var(--page-gold)) center / 100% 3px no-repeat;
+    linear-gradient(var(--page-gold), var(--page-gold)) center 32% / 100% 3px no-repeat;
 }
 
 /* ---------- Hero ---------- */
