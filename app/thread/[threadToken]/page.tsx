@@ -2,13 +2,7 @@ import { and, eq, ne } from "drizzle-orm";
 import { notFound } from "next/navigation";
 import { db } from "@/db";
 import { questions, replies } from "@/db/schema";
-import {
-  Card,
-  CardContent,
-  CardDescription,
-  CardHeader,
-  CardTitle,
-} from "@/components/ui/card";
+import { FeedPost } from "@/components/FeedPost";
 import { RevealContactForm } from "./RevealContactForm";
 import { NotifyEmailForm } from "./NotifyEmailForm";
 
@@ -44,21 +38,22 @@ export default async function ThreadPage({
         your question.
       </p>
 
-      <Card className="mb-6">
-        <CardHeader>
-          <CardTitle>
-            {question.displayName?.trim() || "Anonymous"} asked
-          </CardTitle>
-          <CardDescription>
-            {question.status === "pending"
-              ? "Waiting for a reply"
-              : "Answered"}
-          </CardDescription>
-        </CardHeader>
-        <CardContent>
-          <p className="whitespace-pre-wrap">{question.questionText}</p>
-        </CardContent>
-      </Card>
+      <div className="mb-6">
+        <FeedPost
+          displayName={question.displayName}
+          questionText={question.questionText}
+          createdAt={question.createdAt}
+          replies={threadReplies}
+          statusLabel={
+            question.status === "pending" ? "Waiting for a reply" : "Answered"
+          }
+        />
+        {threadReplies.length === 0 && (
+          <p className="mt-4 text-center text-sm text-muted-foreground">
+            No reply yet. Check back later.
+          </p>
+        )}
+      </div>
 
       {question.status === "pending" && !question.notifyEmail && (
         <NotifyEmailForm threadToken={threadToken} />
@@ -77,25 +72,6 @@ export default async function ThreadPage({
           Thanks for sharing your contact info — your pastor will be in
           touch.
         </p>
-      )}
-
-      {threadReplies.length === 0 ? (
-        <p className="text-center text-sm text-muted-foreground">
-          No reply yet. Check back later.
-        </p>
-      ) : (
-        <div className="space-y-4">
-          {threadReplies.map((reply) => (
-            <Card key={reply.id}>
-              <CardHeader>
-                <CardTitle className="text-base">Reply</CardTitle>
-              </CardHeader>
-              <CardContent>
-                <p className="whitespace-pre-wrap">{reply.replyText}</p>
-              </CardContent>
-            </Card>
-          ))}
-        </div>
       )}
     </div>
   );

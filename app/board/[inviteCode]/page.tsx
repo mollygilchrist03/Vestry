@@ -11,6 +11,7 @@ import {
   CardHeader,
   CardTitle,
 } from "@/components/ui/card";
+import { FeedPost } from "@/components/FeedPost";
 import { AskQuestionForm } from "./AskQuestionForm";
 
 export default async function BoardPage({
@@ -50,7 +51,7 @@ export default async function BoardPage({
         )}
       </div>
 
-      <Card id="ask-a-question">
+      <Card id="ask-a-question" className="rounded-2xl">
         <CardHeader>
           <CardTitle>Ask a question</CardTitle>
           <CardDescription>
@@ -73,23 +74,13 @@ export default async function BoardPage({
           ) : (
             <div className="space-y-4">
               {publicQuestions.map((q) => (
-                <Card key={q.id}>
-                  <CardHeader>
-                    <CardTitle className="text-base">
-                      {q.displayName?.trim() || "Anonymous"} asked
-                    </CardTitle>
-                    <CardDescription>{q.questionText}</CardDescription>
-                  </CardHeader>
-                  {q.replies.length > 0 && (
-                    <CardContent className="space-y-3">
-                      {q.replies.map((reply) => (
-                        <p key={reply.id} className="whitespace-pre-wrap text-sm">
-                          {reply.replyText}
-                        </p>
-                      ))}
-                    </CardContent>
-                  )}
-                </Card>
+                <FeedPost
+                  key={q.id}
+                  displayName={q.displayName}
+                  questionText={q.questionText}
+                  createdAt={q.createdAt}
+                  replies={q.replies}
+                />
               ))}
             </div>
           )}
