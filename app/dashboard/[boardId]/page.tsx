@@ -1,13 +1,14 @@
 import Link from "next/link";
 import { notFound, redirect } from "next/navigation";
-import { and, desc, eq, ne } from "drizzle-orm";
+import { and, desc, eq, ne, sql } from "drizzle-orm";
 import { auth } from "@/auth";
 import { db } from "@/db";
 import { churches, questions, type questionStatusEnum } from "@/db/schema";
 import { getBoardAdmin } from "@/lib/board-admin";
 import { STATUS_BADGE_VARIANT } from "@/lib/question-status-badge";
+import { formatRelativeTime } from "@/lib/format-time";
+import { Avatar } from "@/components/Avatar";
 import { Badge } from "@/components/ui/badge";
-import { buttonVariants } from "@/components/ui/button";
 import { cn } from "@/lib/utils";
 
 type StatusFilter = (typeof questionStatusEnum.enumValues)[number] | "all";
@@ -56,59 +57,90 @@ export default async function BoardQuestionsPage({
       ? and(eq(questions.boardId, boardId), ne(questions.status, "deleted"))
       : and(eq(questions.boardId, boardId), eq(questions.status, status));
 
-  const boardQuestions = await db
-    .select()
-    .from(questions)
-    .where(whereClause)
-    .orderBy(desc(questions.createdAt));
+  const [boardQuestions, statusCounts] = await Promise.all([
+    db.select().from(questions).where(whereClause).orderBy(desc(questions.createdAt)),
+    db
+      .select({ status: questions.status, count: sql<number>`count(*)::int` })
+      .from(questions)
+      .where(eq(questions.boardId, boardId))
+      .groupBy(questions.status),
+  ]);
+
+  const countMap: Partial<Record<string, number>> = {};
+  let totalNonDeleted = 0;
+  for (const row of statusCounts) {
+    countMap[row.status] = row.count;
+    if (row.status !== "deleted") totalNonDeleted += row.count;
+  }
 
   return (
     <div className="mx-auto w-full max-w-3xl px-4 py-10 md:px-8">
       <h1 className="mb-6 text-2xl font-semibold">{board.name}</h1>
 
-      <div className="mb-6 flex gap-2 overflow-x-auto pb-1">
-        {FILTERS.map((f) => (
-          <Link
-            key={f.value}
-            href={
-              f.value === "all"
-                ? `/dashboard/${boardId}`
-                : `/dashboard/${boardId}?status=${f.value}`
-            }
-            className={cn(
-              buttonVariants({
-                variant: status === f.value ? "default" : "outline",
-                size: "sm",
-              }),
-              "shrink-0",
-            )}
-          >
-            {f.label}
-          </Link>
-        ))}
+      <div className="mb-8 grid grid-cols-3 gap-3 sm:grid-cols-5">
+        {FILTERS.map((f) => {
+          const count = f.value === "all" ? totalNonDeleted : (countMap[f.value] ?? 0);
+          const isActive = status === f.value;
+          return (
+            <Link
+              key={f.value}
+              href={
+                f.value === "all"
+                  ? `/dashboard/${boardId}`
+                  : `/dashboard/${boardId}?status=${f.value}`
+              }
+              className={cn(
+                "rounded-2xl border p-4 transition-all",
+                isActive
+                  ? "border-primary bg-primary text-primary-foreground shadow-md"
+                  : "border-border bg-card hover:-translate-y-0.5 hover:border-primary/40 hover:shadow-sm",
+              )}
+            >
+              <p className="text-2xl font-semibold">{count}</p>
+              <p
+                className={cn(
+                  "text-xs font-medium tracking-wide uppercase",
+                  isActive ? "text-primary-foreground/80" : "text-muted-foreground",
+                )}
+              >
+                {f.label}
+              </p>
+            </Link>
+          );
+        })}
       </div>
 
       {boardQuestions.length === 0 ? (
-        <p className="text-sm text-muted-foreground">No questions here.</p>
+        <div className="rounded-2xl border border-dashed border-border p-8 text-center text-sm text-muted-foreground">
+          No questions here.
+        </div>
       ) : (
         <div className="space-y-3">
           {boardQuestions.map((q) => (
             <Link
               key={q.id}
               href={`/dashboard/${boardId}/questions/${q.id}`}
-              className="block rounded-lg border border-border p-4 hover:bg-muted/50"
+              className="group flex items-start gap-3 rounded-2xl border border-border bg-card p-4 shadow-sm transition-all hover:-translate-y-0.5 hover:border-primary/30 hover:shadow-md"
             >
-              <div className="mb-1 flex items-center justify-between gap-2">
-                <span className="text-sm font-medium">
-                  {q.displayName?.trim() || "Anonymous"}
-                </span>
-                <Badge variant={STATUS_BADGE_VARIANT[q.status]}>
-                  {q.status}
-                </Badge>
+              <Avatar name={q.displayName} />
+              <div className="min-w-0 flex-1">
+                <div className="mb-1 flex items-center justify-between gap-2">
+                  <span className="truncate text-sm font-medium">
+                    {q.displayName?.trim() || "Anonymous"}
+                  </span>
+                  <div className="flex shrink-0 items-center gap-2">
+                    <span className="text-xs text-muted-foreground">
+                      {formatRelativeTime(q.createdAt)}
+                    </span>
+                    <Badge variant={STATUS_BADGE_VARIANT[q.status]}>
+                      {q.status}
+                    </Badge>
+                  </div>
+                </div>
+                <p className="line-clamp-2 text-sm text-muted-foreground">
+                  {q.questionText}
+                </p>
               </div>
-              <p className="line-clamp-2 text-sm text-muted-foreground">
-                {q.questionText}
-              </p>
             </Link>
           ))}
         </div>
