@@ -53,7 +53,14 @@
   z-index: 50;
   background: rgba(250, 248, 243, 0.92);
   backdrop-filter: blur(8px);
+  border-bottom: 0.5px solid transparent;
+  box-shadow: 0 1px 0 transparent;
+  transition: border-color 0.3s ease, box-shadow 0.3s ease;
+}
+
+.navScrolled {
   border-bottom: 0.5px solid var(--page-border);
+  box-shadow: 0 4px 20px rgba(30, 40, 24, 0.06);
 }
 
 .navInner {
@@ -210,7 +217,7 @@
   border-radius: 8px;
   font-size: 15px;
   font-weight: 500;
-  transition: background 0.15s ease, transform 0.15s ease;
+  transition: background 0.2s ease, transform 0.2s cubic-bezier(0.16, 1, 0.3, 1);
   display: inline-block;
   border: none;
   cursor: pointer;
@@ -344,6 +351,14 @@
 .feature {
   background: var(--page-white);
   padding: 32px 28px;
+  transition: transform 0.3s cubic-bezier(0.16, 1, 0.3, 1), box-shadow 0.3s ease;
+  position: relative;
+}
+
+.feature:hover {
+  transform: translateY(-3px);
+  box-shadow: 0 12px 24px rgba(30, 40, 24, 0.06);
+  z-index: 1;
 }
 
 .feature h3 {
@@ -369,6 +384,12 @@
   border: 1px solid var(--page-border);
   border-radius: 12px;
   padding: 40px;
+  transition: transform 0.3s cubic-bezier(0.16, 1, 0.3, 1), box-shadow 0.3s ease;
+}
+
+.splitCard:hover {
+  transform: translateY(-3px);
+  box-shadow: 0 12px 24px rgba(30, 40, 24, 0.06);
 }
 
 .splitCard .tag {
@@ -576,6 +597,78 @@
   color: var(--page-gold);
   margin-top: 14px;
   min-height: 18px;
+}
+
+/* ---------- Invite bar (light variant, near top of page) ---------- */
+
+.inviteBar {
+  padding: 8px 0 48px;
+}
+
+.inviteBarCard {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 16px;
+  flex-wrap: wrap;
+  max-width: 640px;
+  margin: 0 auto;
+  padding: 18px 28px;
+  background: var(--page-white);
+  border: 1px solid var(--page-border);
+  border-radius: 100px;
+}
+
+.inviteBarLabel {
+  font-size: 14px;
+  color: var(--page-muted);
+  white-space: nowrap;
+}
+
+.codeEntryLight {
+  display: flex;
+  gap: 10px;
+  flex-wrap: wrap;
+  justify-content: center;
+}
+
+.codeEntryLight input {
+  font-family: var(--font-geist-mono), monospace;
+  font-size: 14px;
+  padding: 10px 14px;
+  border-radius: 8px;
+  border: 1px solid var(--page-border);
+  background: var(--page-cream);
+  color: var(--page-green-900);
+  width: 180px;
+}
+
+.codeEntryLight input::placeholder {
+  color: var(--page-muted);
+}
+
+.codeEntryLight button {
+  padding: 10px 18px;
+  border-radius: 8px;
+  background: var(--page-green-700);
+  border: none;
+  color: var(--page-white);
+  font-size: 14px;
+  font-weight: 500;
+  cursor: pointer;
+  transition: background 0.2s ease;
+}
+
+.codeEntryLight button:hover {
+  background: var(--page-green-600);
+}
+
+.codeMsgLight {
+  font-size: 13px;
+  color: var(--page-muted);
+  margin-top: 8px;
+  text-align: center;
+  min-height: 0;
 }
 
 /* ---------- Footer ---------- */

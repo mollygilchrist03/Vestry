@@ -3,6 +3,8 @@ import { Fraunces } from "next/font/google";
 import Link from "next/link";
 import styles from "./page.module.css";
 import { InviteCodeForm } from "./InviteCodeForm";
+import { NavBar } from "./NavBar";
+import { Reveal } from "./Reveal";
 
 const fraunces = Fraunces({
   variable: "--font-fraunces",
@@ -18,24 +20,7 @@ export const metadata: Metadata = {
 export default function Home() {
   return (
     <div className={`${styles.page} ${fraunces.variable}`}>
-      <nav className={styles.nav}>
-        <div className={`${styles.wrap} ${styles.navInner}`}>
-          <Link href="/" className={styles.navBrand}>
-            {/* eslint-disable-next-line @next/next/no-img-element */}
-            <img src="/Vestry.svg" alt="" className={styles.navMark} />
-            Vestry
-          </Link>
-          <div className={styles.navLinks}>
-            <a href="#how-it-works">How it works</a>
-            <a href="#for-you">For your church</a>
-            <a href="#privacy">Privacy</a>
-            <Link href="/login">Sign in</Link>
-          </div>
-          <Link href="/login" className={styles.navCta}>
-            Start your board
-          </Link>
-        </div>
-      </nav>
+      <NavBar />
 
       <main id="top">
         <section className={`${styles.hero} ${styles.wrap}`}>
@@ -62,19 +47,28 @@ export default function Home() {
           </div>
         </section>
 
+        <section className={`${styles.inviteBar} ${styles.wrap}`}>
+          <Reveal className={styles.inviteBarCard}>
+            <span className={styles.inviteBarLabel}>
+              Already have an invite code?
+            </span>
+            <InviteCodeForm variant="light" />
+          </Reveal>
+        </section>
+
         <section className={styles.story}>
-          <div className={`${styles.wrap} ${styles.storyInner}`}>
+          <Reveal className={`${styles.wrap} ${styles.storyInner}`}>
             <blockquote>
               &quot;I&apos;ve had the same question about a verse for three
               years. I just never found the right moment to ask it out
               loud.&quot;
             </blockquote>
             <cite>Why we built Vestry</cite>
-          </div>
+          </Reveal>
         </section>
 
         <section className={`${styles.section} ${styles.wrap}`} id="how-it-works">
-          <div className={styles.sectionHead}>
+          <Reveal className={styles.sectionHead}>
             <h2>Set up in four steps</h2>
             <div className={styles.brandDivider}>
               <span className={styles.line} />
@@ -85,8 +79,8 @@ export default function Home() {
               From sign-up to your first question, most pastors are live
               before Sunday.
             </p>
-          </div>
-          <div className={styles.steps}>
+          </Reveal>
+          <Reveal className={styles.steps} delay={100}>
             <div className={styles.step}>
               <span className={styles.num}>01</span>
               <h3>Create your board</h3>
@@ -107,19 +101,55 @@ export default function Home() {
               <h3>You reply</h3>
               <p>Publicly to the whole board, or privately — always your call.</p>
             </div>
-          </div>
+          </Reveal>
+        </section>
+
+        <section className={`${styles.section} ${styles.wrap}`} id="for-you">
+          <Reveal className={styles.sectionHead}>
+            <h2>Built around two people</h2>
+            <div className={styles.brandDivider}>
+              <span className={styles.line} />
+              <span className={styles.dot} />
+              <span className={styles.line} />
+            </div>
+            <p>A pastor with limited time, and a member who almost didn&apos;t ask.</p>
+          </Reveal>
+          <Reveal className={styles.split} delay={100}>
+            <div className={styles.splitCard}>
+              <span className={styles.tag}>For pastors</span>
+              <h3>One board, every question in one place</h3>
+              <p>Stop losing questions in texts and hallway conversations. See what your congregation is actually wondering about.</p>
+              <ul>
+                <li>Dashboard sorted by new, answered, and pending</li>
+                <li>Hide or delete anything that needs moderation</li>
+                <li>Flag sensitive threads for a closer follow-up</li>
+                <li>Free to start, no setup fee</li>
+              </ul>
+            </div>
+            <div className={styles.splitCard}>
+              <span className={styles.tag}>For your congregation</span>
+              <h3>Ask without the awkward moment</h3>
+              <p>Some questions are easier to type than to say out loud after service. Now there&apos;s a place for both.</p>
+              <ul>
+                <li>Type a question in under a minute, no account</li>
+                <li>Save your private link to check for a reply</li>
+                <li>Reveal your name later, only if you want to</li>
+                <li>Browse what others have already asked</li>
+              </ul>
+            </div>
+          </Reveal>
         </section>
 
         <section className={`${styles.section} ${styles.wrap}`}>
-          <div className={styles.sectionHead}>
+          <Reveal className={styles.sectionHead}>
             <h2>Everything a board needs, nothing it doesn&apos;t</h2>
             <div className={styles.brandDivider}>
               <span className={styles.line} />
               <span className={styles.dot} />
               <span className={styles.line} />
             </div>
-          </div>
-          <div className={styles.features}>
+          </Reveal>
+          <Reveal className={styles.features} delay={100}>
             <div className={styles.feature}>
               <h3>No account needed</h3>
               <p>Congregation members ask straight from the invite link — no sign-up, no password to remember.</p>
@@ -144,47 +174,11 @@ export default function Home() {
               <h3>Built for every screen</h3>
               <p>Just as easy from the back pew on a phone as from a laptop at your desk.</p>
             </div>
-          </div>
-        </section>
-
-        <section className={`${styles.section} ${styles.wrap}`} id="for-you">
-          <div className={styles.sectionHead}>
-            <h2>Built around two people</h2>
-            <div className={styles.brandDivider}>
-              <span className={styles.line} />
-              <span className={styles.dot} />
-              <span className={styles.line} />
-            </div>
-            <p>A pastor with limited time, and a member who almost didn&apos;t ask.</p>
-          </div>
-          <div className={styles.split}>
-            <div className={styles.splitCard}>
-              <span className={styles.tag}>For pastors</span>
-              <h3>One board, every question in one place</h3>
-              <p>Stop losing questions in texts and hallway conversations. See what your congregation is actually wondering about.</p>
-              <ul>
-                <li>Dashboard sorted by new, answered, and pending</li>
-                <li>Hide or delete anything that needs moderation</li>
-                <li>Flag sensitive threads for a closer follow-up</li>
-                <li>Free to start, no setup fee</li>
-              </ul>
-            </div>
-            <div className={styles.splitCard}>
-              <span className={styles.tag}>For your congregation</span>
-              <h3>Ask without the awkward moment</h3>
-              <p>Some questions are easier to type than to say out loud after service. Now there&apos;s a place for both.</p>
-              <ul>
-                <li>Type a question in under a minute, no account</li>
-                <li>Save your private link to check for a reply</li>
-                <li>Reveal your name later, only if you want to</li>
-                <li>Browse what others have already asked</li>
-              </ul>
-            </div>
-          </div>
+          </Reveal>
         </section>
 
         <section className={styles.privacy} id="privacy">
-          <div className={`${styles.wrap} ${styles.privacyGrid}`}>
+          <Reveal className={`${styles.wrap} ${styles.privacyGrid}`}>
             <div>
               <h2>Anonymous means anonymous</h2>
               <p>
@@ -217,18 +211,18 @@ export default function Home() {
                 </div>
               </div>
             </div>
-          </div>
+          </Reveal>
         </section>
 
         <section className={`${styles.cta} ${styles.wrap}`} id="get-started">
-          <div className={styles.ctaPanel}>
+          <Reveal className={styles.ctaPanel}>
             <h2>Give your congregation a place to ask.</h2>
             <p>Set up your church&apos;s board in a few minutes. Free to start.</p>
             <Link href="/login" className={styles.btnPrimary}>
               Create your church&apos;s board
             </Link>
             <InviteCodeForm />
-          </div>
+          </Reveal>
         </section>
       </main>
 

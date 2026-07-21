@@ -4,7 +4,11 @@ import { useState } from "react";
 import { useRouter } from "next/navigation";
 import styles from "./page.module.css";
 
-export function InviteCodeForm() {
+export function InviteCodeForm({
+  variant = "dark",
+}: {
+  variant?: "dark" | "light";
+}) {
   const router = useRouter();
   const [message, setMessage] = useState("");
 
@@ -21,18 +25,22 @@ export function InviteCodeForm() {
     router.push(`/board/${encodeURIComponent(code)}`);
   }
 
+  const formClass =
+    variant === "light" ? styles.codeEntryLight : styles.codeEntry;
+  const msgClass = variant === "light" ? styles.codeMsgLight : styles.codeMsg;
+
   return (
     <>
-      <form className={styles.codeEntry} onSubmit={handleSubmit}>
+      <form className={formClass} onSubmit={handleSubmit}>
         <input
           type="text"
           name="code"
-          placeholder="Have an invite code?"
+          placeholder={variant === "light" ? "Enter code" : "Have an invite code?"}
           aria-label="Invite code"
         />
         <button type="submit">Go to board</button>
       </form>
-      <p className={styles.codeMsg}>{message}</p>
+      <p className={msgClass}>{message}</p>
     </>
   );
 }
