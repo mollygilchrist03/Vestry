@@ -28,6 +28,13 @@
   text-decoration: none;
 }
 
+/* Button-styled links need to win over the blanket `.page a` inherit
+   above; bump specificity properly instead of reordering/!important. */
+.page a.btnPrimary,
+.page a.navCta {
+  color: var(--page-white);
+}
+
 .page img,
 .page svg {
   display: block;
