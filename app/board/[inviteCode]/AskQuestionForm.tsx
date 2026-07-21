@@ -58,9 +58,19 @@ export function AskQuestionForm({ inviteCode }: { inviteCode: string }) {
         {pending ? "Submitting…" : "Submit question"}
       </Button>
       <p className="text-xs text-muted-foreground">
-        If this is urgent or you&apos;re in crisis, please contact the 988
-        Suicide &amp; Crisis Lifeline (call or text 988) or your local
-        emergency services.
+        If this is urgent or you&apos;re in crisis, please contact your local
+        emergency services. In the US, call or text 988 (Suicide &amp;
+        Crisis Lifeline). Outside the US, or for a full list of hotlines by
+        country, visit{" "}
+        <a
+          href="https://findahelpline.com"
+          target="_blank"
+          rel="noopener noreferrer"
+          className="underline underline-offset-2"
+        >
+          findahelpline.com
+        </a>
+        .
       </p>
     </form>
   );
